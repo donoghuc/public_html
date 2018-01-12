@@ -92,6 +92,7 @@
           </div>
           <p class="mb-2">This site has my notes for each week of D.A.D.A. Use the navigation bar to select week of interest. </p>
           <p class="mb-5">I am using the engr web server to host this site. The source code can be found on <a href="https://github.com/donoghuc/public_html" target="_blank"> github</a></p>
+        </div>
       </section>
 
       <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="week_1">
@@ -100,9 +101,49 @@
 
           <div class="resume-item d-flex flex-column flex-md-row mb-5">
             <div class="resume-content mr-auto">
-             
-          </div>
 
+             <h4> What is Malware? </h4>
+             <p> Malware is a concatenation of the words “malicious” and “software”. It is a term used to describe software used to perform nefarious and unwanted actions on a system.
+             </p>
+
+             <h4>Whyyyyy????? </h4>
+             <p>Humans (and any living creature) are self-interested and often times the path of least resistance to survival is to take what you want by force. If something is exploitable (software or otherwise) it will inevitably be taken advantage of by someone. The attack surface for software systems offers a vast opportunity for exploit by hackers who want to profit from spying, stealing or destroying systems. Society’s fast adoption of and utter reliance on software systems are a massive vulnerability. Exploiting that vulnerability can be profitable by cyber criminals who can safely carry out their crimes in the comfort of their office chair. 
+             </p>
+
+             <h4>Malware types</h4>
+             <p>
+               <ul>
+                 <li>
+                   <b>Virus:</b> Typically an executable file that will start infection with some user interaction (ie running a program in an email attachment). 
+                 </li>
+                 <li>
+                   <b>Worm:</b> Type of virus that can spread without user interaction (ie replication without user intervention). 
+                 </li>
+                 <li>
+                   <b>Trojan:</b> A Trojan is malware hidden within a file type (PDF, word doc, excel, etc) which seems to be benign or useful to the user. Trojans are often associated with “backdoors” ie software that gives an attacker a way to silently monitor and control you computer. 
+                 </li>
+               </ul>
+               <iframe width="420" height="315"
+                  src="https://www.youtube.com/embed/y8a3QoTg4VQ">
+               </iframe>
+             </p>
+
+             <h4>How does malware spread?</h4>
+             <p>Attackers are innovative and engineer attack vectors in many clever ways. The general idea/theme is that a user is tricked in to installing the malicious code. This can be achieved through hiding malware in content the user might find interesting or useful. Instead of me presenting a list of different attack vectors I will share a personal example. I had a colleague when I worked in biotech who was hopelessly computer illiterate and extremely impatient. He wanted to convert an image file from .jpg to .tif and did a google search for a tool to do so. He downloaded and installed a “tool” and immediately regretted it! In this example the user was tricked into installing malicious code because he wanted a quick fix to a problem he did not want to research. It should also be noted that exploiting users just turns out to often be the “easiest” way to spread malware. There can also exist vulnerabilities in system code or hardware that allows attackers to install malware. These exploits often require more research and skill for the hacker to successfully utilize. 
+             </p>
+
+             <h4>Scary stuff</h4>
+             <p>Malware can be used to spy on user activity and extract information (spyware). This is frightening enough but there are also Remote Access Trojans (RAT) that allow attackers to completely control an endpoint. The idea that a computer or server that you think you control is actually being controlled by a nefarious entity is a scary thought! 
+             </p>
+
+             <h4>Who can save us?</h4>
+             <p>Luckily it is also profitable to be in the anti-malware business! Researchers and security firms are growing at an incredible rate and are trying to keep up against the threats. Security suffers from the classic problem that is it often more difficult to defend something than to attack it. In order for researchers in the industry to compare notes and describe malware they have come up with a naming convention. Unfortunately the naming convention is not always followed perfectly, instead the best way to archive and share information about malware is to calculate a hash value on malicious code. The hashes used are typically md5 and can be represented in a hexadecimal string that is unique and easily compared to other samples. Below I show some python code to take an md5 hash of a virus sample from lab1. 
+             </p>
+             <p><script src="https://gist.github.com/donoghuc/cfe4343f7c94d1c00f0c938a7b6eb166.js"></script></p>
+
+            </div>
+
+          </div>
         </div>
 
       </section>
