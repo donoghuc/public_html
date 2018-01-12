@@ -141,7 +141,24 @@
              <p>Luckily it is also profitable to be in the anti-malware business! Researchers and security firms are growing at an incredible rate and are trying to keep up against the threats. Security suffers from the classic problem that is it often more difficult to defend something than to attack it. In order for researchers in the industry to compare notes and describe malware they have come up with a naming convention. Unfortunately the naming convention is not always followed perfectly, instead the best way to archive and share information about malware is to calculate a hash value on malicious code. The hashes used are typically md5 and can be represented in a hexadecimal string that is unique and easily compared to other samples. Below I show some python code to take an md5 hash of a virus sample from lab1. 
              </p>
              <p><script src="https://gist.github.com/donoghuc/cfe4343f7c94d1c00f0c938a7b6eb166.js"></script></p>
-
+             <h4>How do researchers study malware?</h4>
+             <p>It is in the interest of an attacker to hide their actions and obfuscate their malicious code to dupe security analysts. This has resulted in an “arms race” between attackers and defenders that has escalated quickly. A researcher who looks only at code (which is often encrypted or intentionally vague or confusing) is perfroming <b>static analysis</b>. Static analysis can yield valuable insight into the malware and can actually give clues as to its origins. For example if everything is written in a certain language (think Russian, Chinese not java, c) or if it is using encryption techniques popular in particular “circles”. At the end of the day it can often be more beneficial to study malware by just observing it in action <b>(dynamic analysis)</b>. In order to do this dedicated systems are put in place (called sacrificial goats) to be studied. Of course attackers have gotten wise to this and created measures to try to detect goats and subvert research. Another closely related idea is to set up traps (honeypots) that attract malware to try to catch samples for study. Researchers have developed many tools to analyze exactly what malware is doing to infected systems. We explore some of these tools in lab this week. 
+             </p>
+             <h4>Lab 1</h4>
+             <p>
+             For our first lab we got access to a windows VM (heavily partitioned from network of course!). We preserve the “fresh” pre-infected state of the machine using snapshots, then infect the machine using a provided piece of malware. We used the following tools to perform analysis of the malware. 
+             <ul>
+               <li><b>FlyPaper:</b> Trap processes from closing and networking (can have some unintended consequences if you think about it!)</li> 
+               <li><b>FakeNet:</b> Set up fake network protocol that captures the network requests of all processes running. Quite handy for determining how malware is trying to communicate back to attacker.</li>
+               <li><b>ProcessExplorer:</b> Simple windows tool for logging every process that is being executed on a machine in excruciating detail. </li>
+               <li><b>ProccessMonitor:</b> An interface to see high level execution steps of programs on a system.</li>
+               <li><b>AntiSpy:</b> Deep dive into all files in a system (even hidden ones) with tons of amazing features for investigating files, registry keys etc.</li>
+               <li><b>FileInsight:</b>Hex editor to look at binary code. Has tons of features for decryption and static file analysis. </li>
+             </ul>
+             We used these tools to examine a sample of malware designed to persist on a machine. We saw how it infects the machine, communicates back to attackers and then persists on the machine. After doing some research I found the following blog post that describes an example of the malware we investigated that was used to attack banks. The idea was to use the malware to silently redirect bank customer users to a fake site (that mimicked the real bank interface) to steal credentials. Furthermore the second stage of the attack allowed the attacker to have a backdoor into the system and update the system with new executable code persistently. <a href="https://blog.avast.com/2013/03/19/analysis-of-chinese-attack-against-korean-banks" target="_blank">Analysis of chinese attack against korean banks</a>  
+             </p>
+             <h4>Conclusion</h4>
+             <p>This first week was highly inspiring. The lectures were by <a href="https://securingtomorrow.mcafee.com/author/christiaan-beek/" target="_blank">Christian Beek</a> who has a brilliant lecture style and is clearly an expert on security research. Christian’s lectures are engaging and informative in that he provides real world examples of malware and give insight into how researchers study infections. I cannot wait for next week’s lectures to be published! </p>
             </div>
 
           </div>
