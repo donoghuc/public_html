@@ -173,7 +173,63 @@
           <h2 class="mb-5">Week 2</h2>
 
           <div class="resume-item d-flex flex-column flex-md-row mb-5">
-            <div class="resume-content mr-auto"> Comming Soon!</div>
+            <div class="resume-content mr-auto"> 
+
+             <h4>Forensics Overview</h4>
+             <p>This week we dive in to advanced forensics techniques. The discussion is framed as an investigator looking in to a computer or system to understand what that system has been used for. As an investigator your job is to prove what happened on machine, not to prove whether an individual is guilty or not guilty. We focus on an objective analysis and methods to effectively handle volatile data collected from a machine. 
+             </p>
+
+             <h4>Data Collection</h4>
+             <p>The first step in an investigation is to gather evidence. Evidence could include information about the network, operating system, databases, applications, removable media and other peripheral devices. Digital evidence is by nature somewhat fragile and susceptible to tampering. Standards and best practices have been developed to preserve data integrity such as hashing data on arrival and throughout the process making sure hashes match with the original. During an investigation it is important to consider <b>Locard’s Exchange Principle</b>: <em>for any two objects come in to contact, there is always transfer of material from each object to the other</em>. You cannot interact with a live system without having some effect on it. It is crucial to document and understand the effect you are having on the system to preserve evidence integrity.  
+             </p>
+
+             <h4>Data Fragility</h4>
+             <p>Data is fragile in nature as it can be ephemeral in its existence in physical memory. A perfect example of highly volatile data is RAM. RAM is constantly in flux and specific physical memory is being overwritten over the course of the hardware’s lifetime. We will consider some data in context of its volatility from most volatile to least. The most volatile data is the system memory, this can easily be lost or damaged beyond repair. Temporary file systems are also quite volatile. Process tables and network connection information is ephemeral and can be lost over time. Similarly network routing information can be lost. More persistent data are data stored on disks, remote logging data, network topology information and finally system backups. Data should be collected as to minimize loss of volatile data.  
+             </p>
+
+             <h4>FTK Imager</h4>
+             <p>FTK imager is a simple yet powerful tool for capturing an image of a hard disk. This allows a snapshot of the drive that can be shared and examined by researchers. As you would expect there are tools in the application that allow the researcher to generate and compare hashes of the image to determine data integrity. FTK imager was used to create the mayflower image for the investigation challenge below. (Note I am not going to make image of VM because it is boring…).  
+             </p>
+
+             <h4>Volatility</h4>
+             <p>FTK imager is wonderful for investigating persistent disk storage. A tool for investigating RAM is important to discover the wealth of forensic data in physical memory. Analyzing RAM can reveal “hidden” artifacts that prove useful in investigation such as decrypted versions of otherwise encrypted data, keystrokes, WEP and WPA keys, username/passwords, DLL info (including malicious ones). At the end of the day every running process will leave some trace in memory. Volatility is a tool used to analyze a memory dump.  
+             </p>
+
+             <h4>Test out volatility</h4>
+             <p> I copied volatility exe and memdum sample into a volatility_lab directory to investigate. I start with the imageinfo functionality. From here we can see the time the image was taken and other information. Specifically we are interested in the profile suggestions.  </p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/volatility_img_info.png" class="img img-rounded img-responsive"/>
+             </div>
+
+             <p> After finding the profile information I can run psscan. This allows me to find process ID's for programs of interest (most notably evil.exe PID:1216)</p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/psscan.png" class="img img-rounded img-responsive"/>
+             </div>
+
+             <p> Now I investigate the link libraries that evil.exe (PID: 1216) calls using dlllist</p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/dlllist.png" class="img img-rounded img-responsive"/>
+             </div>
+
+             <p> Examine the network activity from mem dump with netscan. This shows evil.exe net activity. </p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/netscan.png" class="img img-rounded img-responsive"/>
+             </div>
+
+             <p> I tried running the deskscan plugin but did not find anything i could identify as malware. The getsids plugin is used for getting security IDs shows both evil.exe and svchest.exe. These show how "deep" into the system the malware has spread by showing the user rights and privileges the malware is running with.</p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/sids.png" class="img img-rounded img-responsive"/>
+             </div>
+             
+             <h4>Timeline</h4>
+             <p>It is important for the analyst to build up a timeline of actions that occurred on the machine being studied. Windows uses a file system called a registry to track and coordinate all activities that go occur on a machine. Regmon can be used to display registry activity in real time and you can see registers as a directory structure using regedit.exe. The Registry is a forensics log, you can find all sorts of information such as auto run tasks, geolocation, peripheral drives, internet activity etc. The registry can be helpful in building your timeline. The other tools that can help build a timeline are volatility, searching through the Master-File-Table and using a tool called Reg-Ripper.  
+             </p>
+
+             <h4>Data Recovery</h4>
+             <p>When the casual user of a system deletes a file they tend to think that it is truly “gone from existence”. This is rarely the case. There are processes for recovering data that take advantage of how data is stored and managed on physical devices. In fact, data recovery tools are so advanced now that many institutions that need to truly erase sensitive data will destroy physical memory devices for fear of data being recovered! 
+             </p>
+
+            </div>
              
           </div>
 
