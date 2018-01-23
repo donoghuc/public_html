@@ -229,6 +229,51 @@
              <p>When the casual user of a system deletes a file they tend to think that it is truly “gone from existence”. This is rarely the case. There are processes for recovering data that take advantage of how data is stored and managed on physical devices. In fact, data recovery tools are so advanced now that many institutions that need to truly erase sensitive data will destroy physical memory devices for fear of data being recovered! 
              </p>
 
+             <h4>Mayflower Challenge</h4>
+             <p>A DPRK Defector was caught close to the border of North and South Korea. The person was member of DPRK’s Unit 21 – Cyber-Army Division. The person had an USB-stick hidden in his clothes. An image was made of the USB-stick. 
+             </p>
+             <p>I first made sure I had a fresh snapshot of my clean VM. I then copied the Image_USB_Mayflower.001 image from the network share to a directory on my VM called mayflower. I mounted the image and aliased it to the E drive using OSFMOUNT and copied the directory to the mayflower directory on my desktop. I was curious about the names as they were in glyphs I do not understand. In order to investigate this I wanted to copy paste the files into google translate. The only problem is the VM does not allow any data transfer. To get around this I wrote some python code (both on the VM and my local machine) to do Optical Character Recognition so I could effectively copy paste the information. I have published that code as well as detailed setup in a <a href="https://github.com/donoghuc/python_ocr" target="_blank" > public git reposotory </a>.    
+             </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/translation.png" class="img img-rounded img-responsive"/>
+             </div>
+
+             <p>Next I wanted to see if there are any deleted files on the image. I order to do this I use photorec and dump the recovered files in the mayflower directory. I poke around and find quite a bit of information that was recovered. 
+             </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/photo_req.png" class="img img-rounded img-responsive"/>
+             </div>
+
+             <p>Now based on a hint from the lecture I do a strings search on the “don’t tell mrs Il Ung.jpg” file and find the following match at offset 0x00003B0: ‘pwd:infected123!’. This is the password to the .zip file (target list.zip). I am able to extract the target list using the password.
+             </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/pwd_infect123.png" class="img img-rounded img-responsive"/>
+             </div>
+
+             <p>Here are the targets I found</p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/targets.png" class="img img-rounded img-responsive"/>
+             </div>
+
+             <p>Based on another lecture hint and an helpful post on the discussion boards by Joe Beauchesne I use file insight to search for “SPE” using the XOR text search plugin. The hint is in the file paths in the warning message image. This leads me to discover the usernames, passwords and some IP addresses hidden in the rootkit.bin file (see notepad for this info). </p>
+ 
+             <div class="col-sm-12 mb-3">
+               <img src="./img/spe_hint.png" class="img img-rounded img-responsive"/>
+             </div>
+
+             <p>Now that I have investigated some things it is time to infect my machine! I fire up process monitor/explorer and fakenet. I rename the rootkit.bin file to rootkit.exe and run it. I do not see any activity on fakenet and I do not see any scheduled tasks with cmd.exe at command. I do however see an endless list of processes in process monotor. I stop collection and begin digging. The list of dlls and other modifications the software makes is staggering. Based on the name of the file it is a rootkit which could be making subtle changes and hiding easter eggs all over my system. I also try using flypaper and it eventually crashes my VM. I can only speculate at this point what the rootkit may be doing to the system. If I had not known based on the file name translation it would be difficult to even see the program is doing anything.</p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/run_rootkit.png" class="img img-rounded img-responsive"/>
+             </div>          
+
+             <h4>Conclusion</h4>
+             <p>What an amazing, fun week! The tools we used such as volatility and imagerec are beyond cool. I cant wait to start doing image recovery on some old flash media I have laying around the house. I think that the mayflower project was really fun. I want to learn more about what the rootkit is doing. I find that my knowledge of windows OS is somewhat slowing me down. That is not to say I am any kind of linux master but I do feel way more at home with a bash shell. Looking forward to the weeks to come!  
+             </p>
             </div>
              
           </div>
