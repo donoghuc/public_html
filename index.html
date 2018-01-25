@@ -8,7 +8,7 @@
     <meta name="description" content="donoghuc DADA">
     <meta name="author" content="Cas Donoghue">
     <link rel="shortcut icon"
-          href="img/Hallows.png">
+          href="img/site/Hallows.png">
     <title>donoghuc CS373</title>
 
     <!-- Bootstrap core CSS -->
@@ -32,7 +32,7 @@
       <a class="navbar-brand js-scroll-trigger" href="#page-top">
         <span class="d-block d-lg-none">D.A.D.A</span>
         <span class="d-none d-lg-block">
-          <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="img/profile.jpg" alt="">
+          <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="img/site/profile.jpg" alt="">
         </span>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -198,27 +198,27 @@
              <h4>Test out volatility</h4>
              <p> I copied volatility exe and memdump sample into a volatility_lab directory to investigate. I start with the imageinfo functionality. From here we can see the time the image was taken and other information. Specifically we are interested in the profile suggestions.  </p>
              <div class="col-sm-12 mb-3">
-               <img src="./img/volatility_img_info.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/volatility_img_info.png" class="img img-rounded img-responsive"/>
              </div>
 
              <p> After finding the profile information I can run psscan. This allows me to find process ID's for programs of interest (most notably evil.exe PID:1216)</p>
              <div class="col-sm-12 mb-3">
-               <img src="./img/psscan.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/psscan.png" class="img img-rounded img-responsive"/>
              </div>
 
              <p> Now I investigate the link libraries that evil.exe (PID: 1216) calls using dlllist</p>
              <div class="col-sm-12 mb-3">
-               <img src="./img/dlllist.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/dlllist.png" class="img img-rounded img-responsive"/>
              </div>
 
              <p> Examine the network activity from mem dump with netscan. This shows evil.exe net activity. </p>
              <div class="col-sm-12 mb-3">
-               <img src="./img/netscan.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/netscan.png" class="img img-rounded img-responsive"/>
              </div>
 
              <p> I tried running the deskscan plugin but did not find anything i could identify as malware. The getsids plugin is used for getting security IDs shows both evil.exe and svchest.exe. These show how "deep" into the system the malware has spread by showing the user rights and privileges the malware is running with.</p>
              <div class="col-sm-12 mb-3">
-               <img src="./img/sids.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/sids.png" class="img img-rounded img-responsive"/>
              </div>
              
              <h4>Timeline</h4>
@@ -236,39 +236,39 @@
              </p>
 
              <div class="col-sm-12 mb-3">
-               <img src="./img/translation.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/translation.png" class="img img-rounded img-responsive"/>
              </div>
 
              <p>Next I wanted to see if there are any deleted files on the image. I order to do this I use photorec and dump the recovered files in the mayflower directory. I poke around and find quite a bit of information that was recovered. 
              </p>
 
              <div class="col-sm-12 mb-3">
-               <img src="./img/photo_req.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/photo_req.png" class="img img-rounded img-responsive"/>
              </div>
 
              <p>Now based on a hint from the lecture I do a strings search on the “don’t tell mrs Il Ung.jpg” file and find the following match at offset 0x00003B0: ‘pwd:infected123!’. This is the password to the .zip file (target list.zip). I am able to extract the target list using the password.
              </p>
 
              <div class="col-sm-12 mb-3">
-               <img src="./img/pwd_infect123.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/pwd_infect123.png" class="img img-rounded img-responsive"/>
              </div>
 
              <p>Here are the targets I found</p>
 
              <div class="col-sm-12 mb-3">
-               <img src="./img/targets.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/targets.png" class="img img-rounded img-responsive"/>
              </div>
 
              <p>Based on another lecture hint and an helpful post on the discussion boards by Joe Beauchesne I use file insight to search for “SPE” using the XOR text search plugin. The hint is in the file paths in the warning message image. This leads me to discover the usernames, passwords and some IP addresses hidden in the rootkit.bin file (see notepad for this info). </p>
  
              <div class="col-sm-12 mb-3">
-               <img src="./img/spe_hint.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/spe_hint.png" class="img img-rounded img-responsive"/>
              </div>
 
              <p>Now that I have investigated some things it is time to infect my machine! I fire up process monitor/explorer and fakenet. I rename the rootkit.bin file to rootkit.exe and run it. I do not see any activity on fakenet and I do not see any scheduled tasks with cmd.exe at command. I do however see an endless list of processes in process monotor. I stop collection and begin digging. The list of dlls and other modifications the software makes is staggering. Based on the name of the file it is a rootkit which could be making subtle changes and hiding easter eggs all over my system. I also try using flypaper and it eventually crashes my VM. I can only speculate at this point what the rootkit may be doing to the system. If I had not known based on the file name translation it would be difficult to even see the program is doing anything.</p>
 
              <div class="col-sm-12 mb-3">
-               <img src="./img/run_rootkit.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/run_rootkit.png" class="img img-rounded img-responsive"/>
              </div>          
 
              <h4>Conclusion</h4>
@@ -289,8 +289,20 @@
           <h2 class="mb-5">Week 3</h2>
 
           <div class="resume-item d-flex flex-column flex-md-row mb-5">
-            <div class="resume-content mr-auto"> Comming Soon!</div>
+            <div class="resume-content mr-auto"> 
              
+
+             <h4>YARA</h4>
+
+             <p> YARA is a tool used by security researchers to identify malicious files. The general Idea is that the analyst can define "rules" (think regular expressions) that identify strings common to malicious source code or artifacts. After defining the rules (expressions) to search for the tool searches file systems efficiently and reports files with matching signatures. Generating a yara signature and distributing it can be helpful to other researchers as well as consumers. Once a good signature is developed it can be unsed in the field to help identify malicious code. A good YARA signature is specific enough to minimize false positives (the case where a harmless file is identified) while maximizing the bredth of malware identified. Generation of a good YARA rule set can be a meticulous and time consuming process for a researcher.</p>
+
+             <p>To get a sense for how YARA works I followed the lecture notes and wrote a signature to find Sytro malware.</p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_3/yara_sytro.png" class="img img-rounded img-responsive"/>
+             </div>
+            </div>
+
           </div>
 
         </div>
