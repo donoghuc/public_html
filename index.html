@@ -198,27 +198,27 @@
              <h4>Test out volatility</h4>
              <p> I copied volatility exe and memdump sample into a volatility_lab directory to investigate. I start with the imageinfo functionality. From here we can see the time the image was taken and other information. Specifically we are interested in the profile suggestions.  </p>
              <div class="col-sm-12 mb-3">
-               <img src="./img/week_2/volatility_img_info.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/volatility_img_info.png" class="img img-rounded img-fluid"/>
              </div>
 
              <p> After finding the profile information I can run psscan. This allows me to find process ID's for programs of interest (most notably evil.exe PID:1216)</p>
              <div class="col-sm-12 mb-3">
-               <img src="./img/week_2/psscan.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/psscan.png" class="img img-rounded img-fluid"/>
              </div>
 
              <p> Now I investigate the link libraries that evil.exe (PID: 1216) calls using dlllist</p>
              <div class="col-sm-12 mb-3">
-               <img src="./img/week_2/dlllist.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/dlllist.png" class="img img-rounded img-fluid"/>
              </div>
 
              <p> Examine the network activity from mem dump with netscan. This shows evil.exe net activity. </p>
              <div class="col-sm-12 mb-3">
-               <img src="./img/week_2/netscan.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/netscan.png" class="img img-rounded img-fluid"/>
              </div>
 
              <p> I tried running the deskscan plugin but did not find anything i could identify as malware. The getsids plugin is used for getting security IDs shows both evil.exe and svchest.exe. These show how "deep" into the system the malware has spread by showing the user rights and privileges the malware is running with.</p>
              <div class="col-sm-12 mb-3">
-               <img src="./img/week_2/sids.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/sids.png" class="img img-rounded img-fluid"/>
              </div>
              
              <h4>Timeline</h4>
@@ -236,39 +236,39 @@
              </p>
 
              <div class="col-sm-12 mb-3">
-               <img src="./img/week_2/translation.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/translation.png" class="img img-rounded img-fluid"/>
              </div>
 
              <p>Next I wanted to see if there are any deleted files on the image. I order to do this I use photorec and dump the recovered files in the mayflower directory. I poke around and find quite a bit of information that was recovered. 
              </p>
 
              <div class="col-sm-12 mb-3">
-               <img src="./img/week_2/photo_req.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/photo_req.png" class="img img-rounded img-fluid"/>
              </div>
 
              <p>Now based on a hint from the lecture I do a strings search on the “don’t tell mrs Il Ung.jpg” file and find the following match at offset 0x00003B0: ‘pwd:infected123!’. This is the password to the .zip file (target list.zip). I am able to extract the target list using the password.
              </p>
 
              <div class="col-sm-12 mb-3">
-               <img src="./img/week_2/pwd_infect123.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/pwd_infect123.png" class="img img-rounded img-fluid"/>
              </div>
 
              <p>Here are the targets I found</p>
 
              <div class="col-sm-12 mb-3">
-               <img src="./img/week_2/targets.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/targets.png" class="img img-rounded img-fluid"/>
              </div>
 
              <p>Based on another lecture hint and an helpful post on the discussion boards by Joe Beauchesne I use file insight to search for “SPE” using the XOR text search plugin. The hint is in the file paths in the warning message image. This leads me to discover the usernames, passwords and some IP addresses hidden in the rootkit.bin file (see notepad for this info). </p>
  
              <div class="col-sm-12 mb-3">
-               <img src="./img/week_2/spe_hint.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/spe_hint.png" class="img img-rounded img-fluid"/>
              </div>
 
              <p>Now that I have investigated some things it is time to infect my machine! I fire up process monitor/explorer and fakenet. I rename the rootkit.bin file to rootkit.exe and run it. I do not see any activity on fakenet and I do not see any scheduled tasks with cmd.exe at command. I do however see an endless list of processes in process monotor. I stop collection and begin digging. The list of dlls and other modifications the software makes is staggering. Based on the name of the file it is a rootkit which could be making subtle changes and hiding easter eggs all over my system. I also try using flypaper and it eventually crashes my VM. I can only speculate at this point what the rootkit may be doing to the system. If I had not known based on the file name translation it would be difficult to even see the program is doing anything.</p>
 
              <div class="col-sm-12 mb-3">
-               <img src="./img/week_2/run_rootkit.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_2/run_rootkit.png" class="img img-rounded img-fluid"/>
              </div>          
 
              <h4>Conclusion</h4>
@@ -299,10 +299,62 @@
              <p>To get a sense for how YARA works I followed the lecture notes and wrote a signature to find Sytro malware.</p>
 
              <div class="col-sm-12 mb-3">
-               <img src="./img/week_3/yara_sytro.png" class="img img-rounded img-responsive"/>
+               <img src="./img/week_3/yara_sytro.png" class="img img-rounded img-fluid"/>
              </div>
-            </div>
+            
 
+             <h4>Cuckoo</h4>
+
+             <p>A new tool introduced this week is called cuckoo. This is a tool used to help automate malware analysis. The tool is highly configurable and integrates with python allowing users to set up custom automations. The goal of the software is to provide a sandbox for the malware to run in with the underlying purpose of recording the execution and behavior of the malware. In our case we have a python script to set up and run malware that has been named “bad” and stored on the desktop. The result is a directory populated with log files describing the processes associated with running the malware. We will explore how cuckoo works in the blog post below. </p>
+
+
+             <h4>Blog</h4>
+
+             <p>In order to put in to practice the generation of yara signatures and automatic analysis using cuckoo we are given a challenge. On our virtual machines we have been provided 4 samples (see below). We are to analyze these samples and describe their behavior in a blog post. The blog post will be used to educate other users about the malware. As part of the blog post we will include a yara signature for the malware that we describe. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_3/challenge_files.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <h4>Initial Analysis</h4>
+
+             <p>For each of the samples I make a copy to the desktop and name it “bad”. I start fakenet and run analyzer.py (cuckoo set up by our python config). In descending order (top to bottom in image above) the general behavior can be described as follows. The first sample does not register on fakenet and leaves two logs in the cuckoo log directory (bad, cmd.exe) there seems to be some suspicious registry key activity. The next sample down has the largest footprint. There are several log files generated for multiple processes. Windows pop up and file explorer crashes. One log is perpetually blocked because a process (found in task manager) with a name composed of Asian characters is running. The third sample down has a very small footprint and cuckoo runs very fast. Finally the last sample down runs and generates several logs. Note that for each file I revert to a fresh image of the virtual machine. </p>
+
+             <p>In the lectures the instructor (Craig Schmugar) mentions that not all samples are necessarily malware. He also mentions that samples that have been packed are likely to be malware. I open each sample using file insight and find that the 4th sample (A1874F714F7A1539939FAE9681803303) is packed with UPX. The discovery of the packing in the 4th sample makes me want to investigate it further. </p>
+
+
+             <h4>Deep Dive Into A187</h4>
+
+             <p>I copy the A187 sample to the desktop and rename it to “bad”. I start fakenet and run analyzer.py. See screenshot below for relevant details. Notice that the file “bad” has been saved to the deskop, fakenet is being run and analyzer.py is executed. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_3/run_cuckoo.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>After execution I see three log files in C\cuckoo\logs. There is “bad” with PID 3316, prints.exe with PID 832 and cmd.exe with PID 1796. I notice in the “bad” log that there are files being appended to C:\Users\Admin\AppData\Local\Temp directory. I use Antispy to investigate. The snip below shows the files ntshruis2.dll, prints.exe, and qinput.png have been saved and set with hidden attributes. .  One highly suspicious activity is that the file disappears after being executed. This behavior makes me think it is part of the malware’s plan to remain hidden.  </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_3/A187_fingerprint.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <h4>What Are These Temp Files?</h4>
+
+             <p>I want to investigate the temporary files that have been added (as discovered using cuckoo logs). I start with the qinput.png file. I do not find anything particularly interesting in file insight using strings.all plugin. The image itself is encoded in some type of Asian characters. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_3/qinput.png" class="img img-rounded img-fluid"/>
+             </div>
+ 
+             <p>Next I investigate prints.exe using file insight. This appears to be a copy of the “bad” file that was deleted from the desktop when initially executed. I perform a stringsAll query and start to think about making a Yara signature. I see that this file is UPX packed as well. It is also important to note that it is executed when “bad” is executed. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_3/prints.png" class="img img-rounded img-fluid"/>
+             </div>
+
+
+
+
+            </div>
           </div>
 
         </div>
