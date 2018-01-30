@@ -351,8 +351,26 @@
                <img src="./img/week_3/prints.png" class="img img-rounded img-fluid"/>
              </div>
 
+             <p>Now I investigate the ntshruis2.dll file using file insight. This file has some beyond sketchy URLs to what appears to be an Asian bank. This information is revealed using stringsAll. I foolishly hit some of the sites on my VM (I am running a VM within a VM) and found some really shady Asian sites with tons of flash based popups. This file confirms my suspicion without a doubt that the A187 sample is malicious. </p>
 
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_3/dll.png" class="img img-rounded img-fluid"/>
+             </div>
 
+             <p>There are quite a few mentions of registry keys so I poked around a bit using anti spy. I was able to find a registry key that runs prints.exe! See the snip below for that information. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_3/first_reg.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>In the cuckoo logs I find a file that used to live in the temp folder where the other files investigated were. The name (as pictured below) is Deleteme.bat. I believe this file is responsible for deleting the “bad” file that kicked off the infection. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_3/deleteme.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <h4>To The Internet!</h4>
+             <p>Now that I have investigated some things it is time to google a bit. I search around for filenames and quickly find the following link <a href="https://home.mcafee.com/virusinfo/virusprofile.aspx?key=5030771#none" target="_blank" >https://home.mcafee.com/virusinfo/virusprofile.aspx?key=5030771#none</a>. This site describes a Trojan for remote access control. I do not see any network activity on the fakenet program but I believe that this malware is a Trojan. The links in the DLL file that call out Asian banks seem to be searching for some kind of information regarding banking. </p>
 
             </div>
           </div>
