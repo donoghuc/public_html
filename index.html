@@ -372,6 +372,24 @@
              <h4>To The Internet!</h4>
              <p>Now that I have investigated some things it is time to google a bit. I search around for filenames and quickly find the following link <a href="https://home.mcafee.com/virusinfo/virusprofile.aspx?key=5030771#none" target="_blank" >https://home.mcafee.com/virusinfo/virusprofile.aspx?key=5030771#none</a>. This site describes a Trojan for remote access control. I do not see any network activity on the fakenet program but I believe that this malware is a Trojan. The links in the DLL file that call out Asian banks seem to be searching for some kind of information regarding banking. </p>
 
+             <h4>Identification</h4>
+
+             <p>I have written a Yara signature that can help find this malware on a machine. It targets both the original sample as well as the copy that is made (prints.exe). In order to build and test the Yara Signature I first copied prints.exe into the directory with the 4 original blog post samples. I looked through the stringsAll dump from prints.exe and the original sample to find strings that seemed specific and meaningful in the packed source code. I came up with what appears to be part of a link and an interesting string of characters that does not appear to be random. I run the Yara scan on the directory with the samples and get the following result which shows me that the signature identifies the sample and prints.exe and is at least specific enough for the 4 samples. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_3/yara_targeted.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Now to test specificity I run a Yara scan on the Admin account. As you can see below the matches we find are in the Temp directory (as part of infection/replication), the samples in the Class2 folder and the definition of the Yara rules in the Yara tool directory. This shows that at least for this machine the rules are specific enough to only identify this bit of malware. </p>           
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_3/yara_specificity.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <h4>Conclusion</h4>
+
+             <p>The investigation of the Trojan sample was informative for learning how malware can subvert the attention of the user. It was fun to track how the malware deletes itself from the original location and then “hides” in the Temp folder where it points a registry key. It is also interesting how it uses its own malicious DLL file to extend the code base in the executables. </p>
+
             </div>
           </div>
 
