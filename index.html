@@ -404,7 +404,26 @@
           <h2 class="mb-5">Week 4</h2>
 
           <div class="resume-item d-flex flex-column flex-md-row mb-5">
-            <div class="resume-content mr-auto"> Comming Soon!</div>
+            <div class="resume-content mr-auto"> 
+
+             <h4>Exploitation</h4>
+
+             <p>This week we are examining ways to deliver malware payloads to systems. So far we have focused on malware itself and not so much the delivery. Delivery can occur when a system is manipulated to allow an attacker to inject malware into a system. Understanding low level architecture x86 processors is important to effectively come up with exploits. The exploits we examine this week take advantage of how programs are interpreted and executed on the CPU to redirect the flow of execution to a hacker controlled instruction set. </p>
+
+             <h4>Stack Attack</h4>
+
+             <p>The call stack is fundamentally how programs execute. There are well defined rules for how the flow of execution through a program is carried out. By manipulating the call stack it is possible under some conditions to redirect the execution flow to attacker defined instructions. We examine the call stack with an example of browser attacks in IE8 using javascript. The tool we use this week for inspecting the calls tack and underlying assembly instructions is WinDbg. The following activities can be found at the following link: <a href="https://github.com/OpenSecurityResearch/FSExploitMe" target="_blank" >https://github.com/OpenSecurityResearch/FSExploitMe</a>. </p>
+
+             <h4>WinDBG Hoops</h4>
+
+             <p>I start up the FSExploitMe.html page in IE8 and allow the .ocx/pdb extensions. I then start up WinDGB and set a breakpoint. I show where the .ocx file is loaded in memory using “lmf m FSExploiteMe” command. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L1_1.png" class="img img-rounded img-fluid"/>
+             </div>
+
+
+            </div>
              
           </div>
 
