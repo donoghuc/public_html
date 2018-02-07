@@ -475,27 +475,85 @@
 
              <p>I set a breakpoint a 54421eb0, reset the windbg connection and trigger the breakpoint with the provided link. The address of the first instruction can be printed out with the “k” command. By looking at the disassembly at the value for eax and then tracing back we see that the first instruction is found at 54431e80.</p>
 
-             <div class="col-sm-12 mb-3">
-               <img src="./img/week_4/L2_1.png" class="img img-rounded img-fluid"/>
-             </div>
-
              <p>Based on the push values we see that the function is called with the arguement values 1, an offset for a string, and the hex value 26. </p>
 
              <p>The parameters signature of the function likely takes two integers and a string.</p>
 
              <div class="col-sm-12 mb-3">
-               <img src="./img/week_4/L2_2.png" class="img img-rounded img-fluid"/>
-             </div>
-             
-             <h4>Crash Triage</h4>
-
-             <p>I set a breakpoint a 54421eb0, reset the windbg connection and trigger the breakpoint with the provided link. The address of the first instruction can be printed out with the “k” command. By looking at the disassembly at the value for eax and then tracing back we see that the first instruction is found at 54431e80.</p>
-
-             <div class="col-sm-12 mb-3">
                <img src="./img/week_4/L2_1.png" class="img img-rounded img-fluid"/>
              </div>
 
+             <h4>Crash Triage</h4>
 
+             <p>For the crash triage section I reset the windbg connection in between each smash of the stack. The first round I smash the stack and check out the values of the registers to find what ones get hacker values (41414141 in eip, and ebp).</p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L2_3.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>To investigate the data the registers point to I use 'dd' to inspect the data further. I find that the data is all hacker controlled 41414141 sequence! 
+             </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L2_4.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p> Now I pinpoint the location of the vulnerable function call in the program. This will be the wmemcpy function at 544320e0. The two snips below (step 1 and step 2) shows the windbg investigation to pinpoint the position found by stepping through function calls. 
+             </p>
+             <p>Step 1: crash program in inspect eip to see call that caused crash.</p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L2_5_a.png" class="img img-rounded img-fluid"/>
+             </div>
+             <p>Step 2: Use info to start stepping through to find position of vulnerability.</p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L2_5_b.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>I reset the breakpoint to the breakpoint discovered above and inspect eip using "uf" to find that the size of the overflown buffer is 1024 bytes (400 in hex).</p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L2_6.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <h4>Stack Exploit Lab</h4>
+
+             <p>The purpose of this lab is to position a payload and have the program execute via the exploit found above. The first step is to just find the offset of the position of eip. This is accomplished using the msfPatternString and the byakugan package. See the snip below for the code details. With the knowledge of the offset we know where to position our injection.</p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L2_l1.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>I change the source to add 42424242 instead of 41414141 to test that we have control of content. </p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L2_l2.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>In order to take advantage of the exploit we need to find a jump in execution, we can search the source for ff e4 wich is that command. We find one at 54432437.</p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L2_l3.png" class="img img-rounded img-fluid"/>
+             </div>             
+
+             <p>Now after considering the 4 byte padding we can position the source code. Note that the result should be the caluclator shell script for launching the calculator is run. I did not see the shell script execute. I tried many combinations of where the padding happend and the order of the script. This was frustrating but the source code below shows how the attack should be positioned to work.</p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L2_l4.png" class="img img-rounded img-fluid"/>
+             </div>   
+
+             <h4>Heap Attack</h4>
+
+             <p>The heap is another vector for gaining code execution from a vulnerable process. In the next bit of exploration we examine how the heap can be investigated and probed for vulnerabilities. </p>
+
+             <p>I refresh the html and attach windbg. I set a breakpoint at 54431ef0 and trigger the breakpoint. I use the !heap command with the –p and –a flags to inspect ecx. Note from the output that the size of the heap block is 8 bytes which points to a stackTimeClass. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L4_1.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Finally we examine the address of the first function in the ecx class identified above as 54431f30.</p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L3_3.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <h4>Conclusion</h4>
+             <p>This week we examine the way programs are executed on hardware. We find ways to work with tools to understand how programs are executed on hardware and ways to shift control to arbitrary instructions. We focus on old exploits in internet explorer that provide a very nice model for understanding how these attacks are possible on exposed systems such as an internet browser. </p>
 
             </div>
              
