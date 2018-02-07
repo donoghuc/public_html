@@ -423,6 +423,38 @@
              </div>
 
 
+             <p>The !teb command is used to examine the Thread Environment Block. In order to calculate the stack size we find the difference between StackBase and StackLimit (I think this is in Hex).  </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L1_2.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Information about the Process Execution block can be examined with the !peb command. The address of the Process heap can be obtained from the information captured in the output shown below. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L1_3.png" class="img img-rounded img-fluid"/>
+             </div> 
+
+             <p>Register values can be examined using the “r” command. For example the EIP register has the value of 54431df0.</p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L1_4.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>The disassemble (“u”) with the flag to show 10 lines (“L10) can be used to determine that there are 0x14 (20) bytes by examining the sub esp,14h line. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L1_5.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Five lines of the program are executed using “t” (t is for trace, also could have been done with "t 5") and then the memory (in Unicode) is shown at the pointer to esp register using the command “du poi(esp)”. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L1_6.png" class="img img-rounded img-fluid"/>
+             </div>
+
+
+
             </div>
              
           </div>
