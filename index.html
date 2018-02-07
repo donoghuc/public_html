@@ -471,6 +471,30 @@
                <img src="./img/week_4/L1_9.png" class="img img-rounded img-fluid"/>
              </div>
               
+            <h4>Stack Behavior</h4>
+
+             <p>I set a breakpoint a 54421eb0, reset the windbg connection and trigger the breakpoint with the provided link. The address of the first instruction can be printed out with the “k” command. By looking at the disassembly at the value for eax and then tracing back we see that the first instruction is found at 54431e80.</p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L2_1.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Based on the push values we see that the function is called with the arguement values 1, an offset for a string, and the hex value 26. </p>
+
+             <p>The parameters signature of the function likely takes two integers and a string.</p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L2_2.png" class="img img-rounded img-fluid"/>
+             </div>
+             
+             <h4>Crash Triage</h4>
+
+             <p>I set a breakpoint a 54421eb0, reset the windbg connection and trigger the breakpoint with the provided link. The address of the first instruction can be printed out with the “k” command. By looking at the disassembly at the value for eax and then tracing back we see that the first instruction is found at 54431e80.</p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_4/L2_1.png" class="img img-rounded img-fluid"/>
+             </div>
+
 
 
             </div>
