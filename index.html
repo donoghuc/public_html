@@ -570,7 +570,118 @@
           <h2 class="mb-5">Week 5</h2>
 
           <div class="resume-item d-flex flex-column flex-md-row mb-5">
-            <div class="resume-content mr-auto"> Comming Soon!</div>
+            <div class="resume-content mr-auto">
+
+
+             <h4>Windows Internals: Rootkit Analysis</h4>
+
+             <p>This week we dive in to the underlying windows kernel. We use the investigation of rootkits to learn about the kernel model in windows. We explore how the applications we run are in user mode as well as some drivers and the windows API. We see where the kernel mode drivers, file system drivers and operating system kernel are positioned between the hardware and the user. We ultimately discover that the agony rootkit hooks in to windows API’s, makes subtle changes that hide it from the user and keep it hidden. We examine the .sys file it generates in the “other kernel-mode drivers” under kernel mode. The main exploration of the internals follows the investigation of the agony rootkit. </p>
+
+             <h4>Agony Rootkit</h4>
+
+             <p>I start by extracting the agony sample and renaming it to “bad” on the desktop. This is of course because our cuckoo configuration expects the target application to be in this location. I start fakenet and run analyzer.py.</p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_5/agony_1.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>After running I see a new file on the desktop called e2r355.ren. I replace the .ren extension with .html and discover it is the standard cuckoo response. This tells me that the malware is involved in network activity. Next I see that cuckoo has trapped three files</p>
+
+             <div>
+               <ol>
+                 <li><b>sortdefault.nls.bin</b>: strings all shows some random strings, does not appear to be executable</li>
+                 <li><b>tzres.dll.bin</b>: executable, strings all yields very few intelligible strings</li>
+                 <li><b>bad</b>: appears to be a copy of agony executable. </li>
+               </ol>
+             </div>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_5/agony_2.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>There also appears to be a file that is added to the analyzer directory called wininit.sys. I copy the file to the desktop (using Antispy) and open the copy with fileInsight. A strings all search yields quite a few plain text instances of “agony”. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_5/agony_3.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>I open Tuluka and examine the SST tab to find that the malware is referencing NtEnumerateValueKey, NtQueryDirectoryFile, and NtQuerySystemInformation. I use liveKD to inspect the code that was originally pointed to for NtEnumerateValueKey (82e80a0f) and the code that replaced it (9bcea480). Note that it references wininit at offset 0x1480! Essentially the malware has “hooked” these kernel API’s and filters calls to malicious code. Note we could use Tuluka to “restore” or “patch” back to the original memory location. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_5/agony_4.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Back in liveKD we use the command “dps nt!kiServiceTable L1091” to inspect the system service descriptor table (SSDT). Here we see all the system API’s available. This illustrates how hooking works, find the SSDT and swap out the pointer to memory where the target code (code being hooked) with your function pointer. Note you need to save original pointer and point back to it when you want. See at the top and bottom where the wininit API’s have been swapped in. Also note their address space, all “normal” kernel space addresses start with “8” wininits are prefixed with 9. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_5/agony_5.png" class="img img-rounded img-fluid"/>
+             </div>
+
+
+             <p>Now I will start a live debug session. I know that I would like to reference the memory locations that were identified in Tuluka where the API hooks are being referenced in memory. I take a screen shot for reference. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_5/agony_6.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>I move over from debuggee (machine I have been working on by executing agony with cuckoo) to debugger. I start a debug session and look up the address for NtEnumerateValueKey. I see that it is the value identified in my snip. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_5/agony_7.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Now I set a break point at the ntEnumerateValueKey and examine the call stack that point. Note that we do not see where wininit code is intercepting the flow control. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_5/agony_8.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>In order to investigate we set a breakpoint at the “replacement” pointer 9bcea480 obtained in the Tuluka snip. Here we see the addition of the wininit+0x1480. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_5/agony_9.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Now I use the disassembly to step through the code to find the offset of where we return back to the hooked functions. Note that in windbg F8 can step through and F10 can step over. The general strategy is to step through every non-call instruction and examine call instructions for when execution is given back to the API of interest. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_5/agony_10.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>I start with the NtEnumerateValueKey API. The original offset in wininit is 9bcea480, I find the call back to the original API (82e80a0f) at 9bcea4d4. The offset is thus 0x54 or 84 bytes.  </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_5/agony_11.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Moving on to NtQueryDirectoryFile at 9bcea050 I discover that I have to clear all other breakpoints using “bc *” in order to get to this breakpoint. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_5/agony_12.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>After stepping though some disassembly code we find that the call back to NtQueryDirectoryFile occurs at offset 0x36 or 54 bytes. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_5/agony_13.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Now for the final investigation we set the breakpoint for NtQuerySystemInformation. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_5/agony_14.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Stepping through we find the offset that calls back to the native API at 0x1a or 26 bytes. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_5/agony_15.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <h4>Conclusion</h4>
+             <p>Examining the agony rootkit was a great way to learn about windows system internals. The hands on experience with examining the low level API calls where rootkits may hook in to was a good way to learn about the windows kernel. It was surprising to me how “little” code the agony rootkit needed to execute to be efficient before returning control to the target APIs. It was also informative to see how a rootkit could potentially be cleaned or patched by restoring the memory pointers in the SSDT. </p>
+             
+            </div>
              
           </div>
 
