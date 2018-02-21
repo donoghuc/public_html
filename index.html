@@ -680,7 +680,7 @@
 
              <h4>Conclusion</h4>
              <p>Examining the agony rootkit was a great way to learn about windows system internals. The hands on experience with examining the low level API calls where rootkits may hook in to was a good way to learn about the windows kernel. It was surprising to me how “little” code the agony rootkit needed to execute to be efficient before returning control to the target APIs. It was also informative to see how a rootkit could potentially be cleaned or patched by restoring the memory pointers in the SSDT. </p>
-             
+
             </div>
              
           </div>
@@ -696,7 +696,40 @@
           <h2 class="mb-5">Week 6</h2>
 
           <div class="resume-item d-flex flex-column flex-md-row mb-5">
-            <div class="resume-content mr-auto"> Comming Soon!</div>
+            <div class="resume-content mr-auto"> 
+
+
+
+
+             <h4>Network Security</h4>
+             <p>A computer by itself is capable of performing complex and valuable computation. A network of computer compounds the power of single computers to comprise unimaginably powerful systems. Networks have clear advantages for boosting the effectiveness of compute power and connecting information streams. The value that society has placed on connectivity has created has opened up a vast attack surface for malicious actors who want to steal data or manipulate networks. </p>
+
+             <h4>Protocol</h4>
+             <p>The fundamental concept for a computer network is communication. Computers are excellent at executing instructions exactly as they are defined. It is critical that defined protocols are devised that will describe exactly how the communication should take place. These protocols must take in to account connectivity and device specific limitations and decide how to deal with them. Once a protocol is proposed then every machine who wants to use it must come up with an implementation that acts according to the specification so that other machines can communicate.  </p>       
+
+             <h4>Exploit</h4>
+             <p>The fact that protocols must be specifically defined for all parties wanting to communicate means that attackers have access to the exact specification of the protocol for public communication. Thus they can devise strategies for manipulating the behavior of the defined protocol. In many ways there can be an advantage to someone who is interested in attacking a system where both parties (attacker and defender) have to abide by the same well defined rules. New protocols can be difficult to roll out because of legacy systems. If a new exploit is discovered the attacker can likely move faster than the defender can patch the system. </p>   
+
+             <h4>Defense</h4>
+             <p>An important task of the network architect and administrator is to identify and define the types of activities that are expected to be performed on the network. By defining the activity and types of interaction you expect you can build a “white list” of acceptable interaction. This allows you to enforce rules that only allow certain behavior and block and report all other behavior. This is a powerful concept because it allows the administrator to be explicit in what to allow and therefore block all other things that they do not expect. That being said it can be difficult in practice to define ever behavior that is expected to be allowed on a network. Things change rapidly and keeping up with insertions and deletions from the white list can be a full time job! The opposite of the white list is the black list. The black list is a definition of behavior that is known to be malicious. This can also be a powerful defense mechanism but it is important to note that a black list will grow and grow and there will always be a new behavior to add. It is a very difficult list to build and maintain. </p>   
+
+             <h4>Example</h4>
+             <p>In the example below we diagram a network and define rules and give example for what we would add to our white list. Note that some things will be allowable but will require that some conditions are satisfied. For example if an outside user wants to access the network resources they must VPN into the network using multi factor authentication before they are allowed to consume the data. </p>   
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_6/activity_table.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <h4>Robustness Principle: RFC-1122 Jonathan Postel, 1989</h4>
+             <p> Below is an exerpt from the robustness principle </p>   
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_6/robustness.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <h4></h4>
+             <p></p>   
+            </div>
              
           </div>
 
