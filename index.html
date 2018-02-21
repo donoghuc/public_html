@@ -699,8 +699,6 @@
             <div class="resume-content mr-auto"> 
 
 
-
-
              <h4>Network Security</h4>
              <p>A computer by itself is capable of performing complex and valuable computation. A network of computer compounds the power of single computers to comprise unimaginably powerful systems. Networks have clear advantages for boosting the effectiveness of compute power and connecting information streams. The value that society has placed on connectivity has created has opened up a vast attack surface for malicious actors who want to steal data or manipulate networks. </p>
 
@@ -721,14 +719,24 @@
              </div>
 
              <h4>Robustness Principle: RFC-1122 Jonathan Postel, 1989</h4>
-             <p> Below is an exerpt from the robustness principle </p>   
+             <p> Below I have marked up Jonathan Postel’s 1989 robustness principle from RFC-1122. Red indicates a statement which I believe has changed with time while green indicates statements that I believe have stood the test of time. The first red highlight seems to not be aligned with the concept of a white list for network security. In the case of a firewall you would be conservative in what you “accept” if you consider that accepting something is “letting it through” to the network. </p>   
+
+             <p>The next highlighted text is relevant today because as always it is a given that software will break. No matter how “perfect” a design is the system will eventually break down. A great design will account for failure modes and fail gracefully and safely. This actually leads in to the next highlighted text where adaptability in anticipation of change must be part of the design. The most fundamental part of this is to do it safely. IE failure modes should default to error out gracefully and not default to “allow” when an unexpected mode is encountered. </p> 
+
+             <p>The red text in the second to last paragraph is important to consider in context of the white list principle. It is important that the system gracefully prevent failure modes without being overly restrictive of innovative features. The last green highlighted text illustrates this principle well in that the overall system should default to usable for known safe cases but be wary and block unknown cases. </p> 
 
              <div class="col-sm-12 mb-3">
                <img src="./img/week_6/robustness.png" class="img img-rounded img-fluid"/>
              </div>
 
-             <h4></h4>
-             <p></p>   
+             <h4>Network Profiling</h4>
+             <p>The lab this week focused on analysis of packet headers captured on a network. The work was submitted in detail for lab 2. The code for analysis is hosted publicly and can be found below. </p>   
+
+             <script src="https://gist.github.com/donoghuc/9ce93919c3b5205e4b64285665414d7e.js"></script>
+
+             <h4>Conclusion</h4>
+             <p>Netoworks security is a highly complicated and ever evolving field. It is important to secure networks and make them as usable and efficient as possible. There are many techniques for securing and monitoring a network. For example the use of white lists black lists and honeynets can help admins secure and understand the networks they are responsible for protecting. </p>   
+
             </div>
              
           </div>
