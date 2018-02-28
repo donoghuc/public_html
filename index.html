@@ -752,7 +752,37 @@
           <h2 class="mb-5">Week 7</h2>
 
           <div class="resume-item d-flex flex-column flex-md-row mb-5">
-            <div class="resume-content mr-auto"> Comming Soon!</div>
+            <div class="resume-content mr-auto"> 
+
+             <h4>Web Security</h4>
+             <p>My first memory of the world wide web and the internet is in the library of my elementary school. I do not remember the browser or the search engine but I do remember the concept of “search for some key words and get some websites” (I was in 5th grade in 1998 so likely around then). This was unbelievable to me because the only other exposure I had to this kind of search indexing was a set of CD’s that contained the encyclopedia Britannica (or something similar). I bring this up because I can (barely) remember a time before the widespread use of the internet. </p>
+
+             <p>It is interesting to think about how my parents experienced their first “search” far later in life and that my nieces and nephews will experience it early in life. The period of widespread adoption of the web provides THE LARGEST attack vector imaginable for hackers.  People who are new to the web or computers in general can be fooled into just about anything. The fact that the state of the conduct expected on the web is ever changing and not well defined make it easy for people to find creative ways to exploit one another. </p>
+
+             <p>This week we focus on the MANY ways that the web can be used to exploit systems and gain information valuable to hackers. A stat that is presented in the lectures this week indicates that 95% of malware is delivered via the web. Malware and data theft are as prevalent and high profile as ever. In many ways the user is presents an “easy” target for attackers looking for an exploit. People can be tricked and conned MUCH easier than a computer program. Attackers can prey on human emotion or desire far easier than finding a new zero day in a complicated software system hardened against attacks. </p>
+
+             <p>At the end of the day the weak link in web security is and has been the (human) user. The way that malware that is delivered and the exploits that target users are an excellent indication of how attackers choose the “easy” route of tricking users into divulging information or downloading malware. Below I show my favorite example. This “nice” looking website gives the user the sense of security in a polished UI and preys upon their desire for companionship. It is obvious that the attacker wants to simply steal passwords but I have no doubt that some people entered their information looking for a mate. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_7/date.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>They “good guys” are on to trickery that has been successful in the past by hackers and new strategies to defend the innocent casual web user are being rolled out. Some important concepts are the Certificate Authorities and making the web HTTPS by default. HTTPS aims to encrypt all web communication by TLS security. The argument against “secure by default” used to be that certificates were expensive and that de/encryption is computationally expensive. With the current state of hardware ability and the emergence of free certificates security by default is becoming more the norm. So much so that some browsers will display a warning to users when they are using a website that is not secured by HTTPS. </p>
+
+             <p>Of course simply having a secure connection to download malware or to give away credentials is no silver bullet against the WWW as an attack surface. Another important factor for security is the validation of URLs. The advent of “big data” solutions and machine learning make it more and more feasible to start classifying URLs as “good” or “bad” in real time. Sites that deliver malware need to move faster and faster to deal with the fact that “good guys” are doxing them. 
+             </p>
+
+             <p>The general idea for using “big data” for keeping track of malicious sites is to identify methods for flagging sites as malicious based on observations on the web. To explore this topic I developed a classifier based on some labeled JSON data. The label is supplied that gives tags the URL as malicious or not and gives some information about the nature of the URL. I looked for patterns in the training data to write heuristics for calling out malicious sites. For example, for every numeric parameter I looked at a box plot comparing the malicious vs “clean” sites. The plot below shows how there is a clue for a heuristic for calling out a malicious site. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_7/sns.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>The outliers for the malicious URLS “host_len” field show that a malicious site is likely to have a total length of greater than 65 characters. By accumulating these heuristics and building heuristics I built a classifier at <a href="https://github.com/donoghuc/url_reputation" target="_blank"> https://github.com/donoghuc/url_reputation</a> </p>
+             <h4>Conclusion</h4>
+             <p>This week I spent most of my time developing the heuristics for identifying a malicious site. I would like to continue the project by developing a machine learning algorithm in the scikit learn python package index. In order to do this effectively I will need a good source for current training data and develop some more “tuning” for the weights of the features in determining the legitimacy of a URL without actually having to visit the site! </p>
+
+            </div>
              
           </div>
 
