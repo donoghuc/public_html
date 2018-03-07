@@ -797,7 +797,89 @@
           <h2 class="mb-5">Week 8</h2>
 
           <div class="resume-item d-flex flex-column flex-md-row mb-5">
-            <div class="resume-content mr-auto"> Comming Soon!</div>
+            <div class="resume-content mr-auto"> 
+
+             <h4>Messaging Security</h4>
+             <p>Spam is a term that describes content that is broadcast to anybody who will pay attention to it either consciously or subconsciously. Spam can be anything from physical “junk mail” to email. Email is far less expensive to broadcast than paying for postage on physical mail. The cost of producing E-spam is outweighed by the benefit of spreading malware or tricking users in phishing attacks. </p>
+
+             <p>The goal of filtering spam is to stop it from reaching the user without filtering out the non-spam (ham) messages. This goal is simple enough to define but highly complex to actually implement. Reliably differentiating spam from ham with the luxury of time and computer resources is hard enough, add to the problem of performing filtering in real time and you have an extremely difficult engineering problem. </p>
+
+             <p>In order to have an efficient spam filter you need to define rules for reliably separating the legitimate from illegitimate messages. These rules must be able to examine messages quickly and accurately in order to be economically feasible. </p>
+
+             <p>Building rules for spam detection can be accomplished by studying historical data that has been marked as spam or not. We need to be clever in what data and meta data we use to identify spam. When we understand the indicators of spam we can make rules that can help define what messages are illegitimate. We have a database with metadata for 100K messages that have been marked as spam or not spam. </p>
+
+             <h4>Analysis</h4>
+             <p>I start by identifying the tables in the database using \dt in the psql shell. </p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_8/one.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Next I use the \d command to see the column names (and data types). </p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_8/two.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Finally, in order to write queries in a nice text editor instead of the interactive shell I figure out what the database is called by using the current_database() method within the interactive shell. </p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_8/three.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Now that I have the meta data about the database itself I can start writing queries in the text editor (with nice syntax highlighting and “saving”). I use the general I use the following call and options to run a query from the email_analysis.sql file and save it to /tmp/outpu.csv. This allows me to use the csv viewer (Gnumeric) for looking at nice tabular data. </p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_8/four.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>In the first query I just look at the first three rows of the data with the header to get a sense for what the data looks like.  </p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_8/five.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Next I get counts for spam vs ham and find that there are 85K spam entries and 15K ham entries. Note the use of WITH syntax and commenting out queries. This is my style of doing exploratory analysis on relational databases because it allows you to build up queries without having deep nesting and keeps the code clean. </p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_8/six.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>The fact that blasting out spam is cheap it would make sense from a spammer’s perspective to push as much content as possible. With this idea I take the approach of finding the most popular “content” by examining the msubject and attachment hashes. </p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_8/seven.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>We see that the “Our New Stock Pick” has 61K occurrences! Spam for sure…</p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_8/eight.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Similarly we find that there is a highly popular attachment hash (over 63K occurances). </p>
+
+
+             <p> Now that we have some popular spam we will link back to some IP addresses associated with the sender. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_8/nine.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Now I see what we get from selecting everything with the IP address that has a hit in the “popular” data. I do a count method and find we get 79492 entries. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_8/ten.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>In order to get a sense of “accuracy” I do a join and find the “identified” spam vs the “known spam”. We see that there are about 6K “false positives” based on our method. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_8/eleven.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>The query for finding the “misses” is not optimized at all. It took well over 5 minutes to run. It should be refactored using join logic. This actually shows how analysis of messages can take quite a bit of time if not though of carefully. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_8/twlev.png" class="img img-rounded img-fluid"/>
+             </div>         
+
+             <h4>Conclusion</h4>
+             <p>We see that our heuristic method of finding the message meta data that is most prevalent and then filtering based on linking back IP sources is somewhat effective. We also discovered how even with only 100K entries the query time can be quite expensive for real time applications for certain queries. </p>
+            </div>
              
           </div>
 
