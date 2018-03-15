@@ -68,11 +68,9 @@
             <a class="nav-link js-scroll-trigger" href="#week_8">Week 8</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#week_9">Week 9</a>
+            <a class="nav-link js-scroll-trigger" href="#week_9">Week 9/10</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#week_10">Week 10</a>
-          </li>
+
 
         </ul>
       </div>
@@ -879,6 +877,7 @@
 
              <h4>Conclusion</h4>
              <p>We see that our heuristic method of finding the message meta data that is most prevalent and then filtering based on linking back IP sources is somewhat effective. We also discovered how even with only 100K entries the query time can be quite expensive for real time applications for certain queries. </p>
+
             </div>
              
           </div>
@@ -890,14 +889,93 @@
 
 
       <!-- SECTION BREAK -->
-
       <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="week_9">
         <div class="my-auto">
-          <h2 class="mb-5">Week 9</h2>
+          <h2 class="mb-5">Week 9/10</h2>
 
           <div class="resume-item d-flex flex-column flex-md-row mb-5">
-            <div class="resume-content mr-auto"> Comming Soon!</div>
-             
+            <div class="resume-content mr-auto"> 
+
+             <h4>Mobile Security</h4>
+             <p>I got my first cell phone in freshman year of high school (2002). It was capable of storing contact information, making calls, send text messages and playing the “snake” game. These features astounded me because it opened up the ability for private communication wherever I was. The first time I saw an iphone in real live was not until college (2008). I could not believe that there was an internet browser on a hand held device. It was not until 2015 that I got my first smart phone (issued at work). I quickly got used to doing many of my online activities (email, banking, directions, etc). Now in 2018 I can’t even imagine what life would be like without my phone. I use it extensively for navigation and entertainment (avid podcast consumer). </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_9/1.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>The ubiquity of smart phones in modern western culture has opened up a massive attack surface for hackers. The tendency to use a mobile device for highly sensitive communication and to access sensitive data (financial, confidential, health, etc) makes finding exploits a potentially lucrative endeavor for a bad actor. Users of “secure” systems are notoriously the weakest link in security. Giving users the power of a modern smart phone for controlling or interrogating every aspect of their lives packages up personal information in to a nice discrete bundle for an attacker. </p>
+
+             <p>The explosive growth in the distribution of smart phone use as well as the rapid advance in the technology leads to a complicated and chaotic array of software/hardware in the wild. This chaos and confusion is highly advantageous for hackers. As a specific example if an exploit is discovered for Android v1.1, even if an update is released with a patch to mitigate the threat there will inevitably be users who do not install the update. This is not a problem specific to mobile devices, but the fast pace of development and widespread use make it more of an issue than for laptops or workstations. </p>
+
+             <p>Even if a device is up to date with the most modern OS release there still exist the opportunity to exploit users using age old trickery. The oldest trick in the book is the Trojan. In many cases for a mobile application the user will download an application that appears to have some feature that they desire when in fact that download comes with malicious code as well. We will examine a Trojan app that is advertised (ironically) to be a security feature. </p>
+
+             <h4>Secure Monitor Trojan</h4>
+             <p>In order to demonstrate this mobile Trojan we will use the Android Virtual Device Manager (ADV) feature in Eclipse (Juno).  I create the specs for a mobile device running Android 5.0 and launch it using the ADV interface. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_9/2.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>The interface for emulating the phone lets me use the keyboard and mouse to interact with the components of the phone. </p>
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_9/3.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>I configure the Environment variables to include a path to the adt-bundle for linux. I check that these paths can be resolved by running “adb device” to confirm that I have emulator-5554 device attached. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_9/4.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Now I install the malicious application on the emulated android instance using adb install. The application is successfully loaded on the “phone”. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_9/5.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Now I open a new instance of the same configuration defined above as emulator:5556. You can see from the screenshot below that the malicious application was not installed to the “new” 5556 instance. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_9/6.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>Back in the infected (first) instance 5554 of the emulator I open the newly installed app (Secure Monitor) and see that there is an activation code of 100000003. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_9/7.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>In order to demonstrate how the Secure Monitor Trojan can exploit the infected device we will “snoop” on the infected device from the “clean” instance using text messages. The number for the infected device is 1-555-521-5554. I send the text #00005556 to that number from the “clean” 5556 number. This is a command for that device to send the “confirmation number” generated in the malicious Secure Monitor app as well as other identifying information about the phone. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_9/8.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>The fact that we can confirm that the infected device has reported back (remotely without user doing anything explicitly on the device) show that we can now control it. We send the message /00005556 to the number to mirror back every text that phone receives. We use the eclipse editor to send a SMS message to the infected phone. In this example we send (from a made up incoming number of “1”) a fake transaction number from a financial institution (mTAN: 22). This should be mirrored back to the “controller” device. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_9/9.png" class="img img-rounded img-fluid"/>
+             </div>
+
+
+             <p>This screenshot shows the attacker (controlling) device sending the discover and forward commands (#000…, /000…) to the infected device. It also shows the message that has been sent to the infected device from the fictitious banking institution (phone number 1, message mTAN:22). </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_9/10.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <p>This image shows the infected device history. We see the /00005556 control command as well as the received message from the fictitious banking institution as well as the forward to the controller. The fact that you can see the messages being forwarded might raise suspicion for users of the infected device. A possible improvement to the malware could be to hide those messages used for controlling the infected device. </p>
+
+             <div class="col-sm-12 mb-3">
+               <img src="./img/week_9/11.png" class="img img-rounded img-fluid"/>
+             </div>
+
+             <h4>Conclusion</h4>
+
+             <p>The Trojan example shows a practical application of an exploit for an old version of android. The malware payload is delivered in a Trojan application and allows attackers to steal data from the infected phone. This particular scheme for exploiting mobile by no means is the most advanced attack but it does show a common approach and hopefully demonstrates how sensitive phones are as a valuable target for hackers to exploit. </p>
+
+           </div>
+
           </div>
 
         </div>
@@ -906,18 +984,6 @@
 
       <!-- SECTION BREAK -->
 
-      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="week_10">
-        <div class="my-auto">
-          <h2 class="mb-5">Week 10</h2>
-
-          <div class="resume-item d-flex flex-column flex-md-row mb-5">
-            <div class="resume-content mr-auto"> Comming Soon!</div>
-             
-          </div>
-
-        </div>
-
-      </section>
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
